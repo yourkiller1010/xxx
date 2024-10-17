@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vampire Networks</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: red;
+            font-family: 'Courier New', Courier, monospace;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        h1, p {
+            margin: 0;
+        }
+
+        #quizBox {
+            text-align: center;
+            border: 2px solid red;
+            padding: 20px;
+            border-radius: 10px;
+            background: black;
+        }
+
+        #quizText {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        #startButton {
+            padding: 10px 20px;
+            background-color: red;
+            border: none;
+            color: black;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        #startButton:hover {
+            background-color: darkred;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Styling for the content after quiz */
+        #welcomeText {
+            font-size: 50px;
+            letter-spacing: 4px;
+            opacity: 0;
+            position: relative;
+        }
+
+        #welcomeText.fade-in {
+            animation: fadeIn 3s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #youGotCooked {
+            font-size: 40px;
+            opacity: 0;
+            margin-top: 30px;
+            animation: showCooked 2s ease-in-out forwards 5s; /* Delay for after "Welcome" */
+        }
+
+        @keyframes showCooked {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1.0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Quiz Box -->
+    <div id="quizBox">
+        <p id="quizText">If you want to open the page, please press here:</p>
+        <button id="startButton">Click Here</button>
+    </div>
+
+    <!-- Content to be shown after the button is clicked -->
+    <div id="content" class="hidden">
+        <h1 id="welcomeText">Welcome to Vampire Networks</h1>
+        <div id="youGotCooked">You Got Cooked!</div>
+    </div>
+
+    <script>
+        // Function to play audio multiple times
+        function playAudioLoop(src) {
+            const audio = new Audio(src);
+            audio.volume = 1.0; // Set volume to 100%
+            audio.loop = true; // Loop the audio
+            audio.play(); // Play the audio
+            return audio;
+        }
+
+        // Fullscreen function for cross-browser compatibility
+        function openFullscreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { // Firefox
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { // IE/Edge
+                elem.msRequestFullscreen();
+            }
+        }
+
+        // Start button event listener
+        document.getElementById('startButton').addEventListener('click', function() {
+            // Hide the quiz box
+            document.getElementById('quizBox').classList.add('hidden');
+
+            // Show the content
+            document.getElementById('content').classList.remove('hidden');
+
+            // Trigger fullscreen
+            openFullscreen();
+
+            // Play audio in a loop
+            playAudioLoop('x.ogg'); // Replace 'x.ogg' with your audio file path
+
+            // Start animation for welcome text
+            document.getElementById('welcomeText').classList.add('fade-in');
+        });
+    </script>
+
+</body>
+</html>
